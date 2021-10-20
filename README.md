@@ -13,7 +13,7 @@ https://github.com/rasg-affiliates/healvis (you must checkout the branch 'setup_
 
 
 
-Afterward, you will need to pip (or conda) install the following modules:
+Afterward, you will need to pip (or conda) install the following two modules:
 
 ruamel.yaml
 
