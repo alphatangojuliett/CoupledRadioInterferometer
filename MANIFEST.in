@@ -1,0 +1,17 @@
+include *.txt
+include *.h5
+include *.uvh5
+include *.fits
+include *.hdf5
+include *.npy
+include *.csv
+include *.yaml
+
+recursive-include CoupledRadioInterferometer *.txt
+recursive-include CoupledRadioInterferometer *.h5
+recursive-include CoupledRadioInterferometer *.uvh5
+recursive-include CoupledRadioInterferometer *.fits
+recursive-include CoupledRadioInterferometer *.hdf5
+recursive-include CoupledRadioInterferometer *.npy
+recursive-include CoupledRadioInterferometer *.csv
+recursive-include CoupledRadioInterferometer *.yaml
