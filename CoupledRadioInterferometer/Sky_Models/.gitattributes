@@ -1,0 +1,1 @@
+GDSM_Haslam_dsds_Nside128_144-169MHz_101Nfreqs_ud_grade_power0.hdf5 filter=lfs diff=lfs merge=lfs -text
