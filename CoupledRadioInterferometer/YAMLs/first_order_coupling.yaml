@@ -1,0 +1,26 @@
+limit_coupling: # Use thresholds to determine whether you would like to calculate the full first-order coupling, or to only couple a subset of the array into your baselines. See d_cpl_iter dictionary in the ipynb and first_order_coupling_functions.py
+  type: 'thresh' # If 'all', calculate full first order coupling. If 'thresh': threshold units: [m]; theshold equivalence: evaluated literally. So: choose "<", ">", "<=", ">=" . In first_order_coupling_functions.py, see calc_first_order_visibility_uvdata() and calc_first_order_visibility_uvdata_mp()
+  E/W: 'np.abs(E) <= np.inf'
+  N/S: 'np.abs(N) <= 7.59'
+  ABS: 'ABS <= np.inf' #This is equivalent to not having a threshold on absolute length
+alternate_coupling: #Adjusting any of these booleans to 'True' may be intuitive to see how coupling propagates, but will yield unphysical results. 'flip_propagator_dir' can always be T or F. For the other options (e.g 'flip_sigma_sum') at most one can be T, the rest F
+  flip_propagator_dir: False # Flip the direction of propagation of the coupling, e.g. exp(+2 pi i) -> exp(-2 pi i)
+  sum_both_sigma: False # both the k!=i and k!=j sum terms of the coupling formalism (e.g. equation 19 of the paper) are summed. the k!=i term is no longer negative
+  subtr_both_sigma: False # both the k!=i and k!=j sum terms of the coupling formalism (e.g. equation 19 of the paper) are subtracted. the k!=j term is no longer positive
+  flip_sigma_sum: False
+verbose: False
+str_E: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Beams/airy_analytic_efield_beam_240_Nfreqs_64_nside_healpix_v2.fits' # path to e-field beam
+str_D: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Beams/airy_analytic_power_beam_240_Nfreqs_64_nside_healpix_v2.fits'  # path to power beam
+str_HH: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Beams/airy_HH_beam_healpix.fits' # path to coupling beam (in the paper: JJ)
+str_HdagHdag: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Beams/airy_HdagHdag_beam_healpix.fits' # path to coupling beam (in the paper: J^dagger J^dagger)
+pol: 'xx'
+make_new_coupling_beams: True # if this is your first time running the demostration ipynb, you must set this as True to construct the coupling beams. 
+same_beam_all_freqs: False # False: Use the beam gain at each simulated frequency. If you have a beam with poor frequnecy resolution, you may wish to set this to 'True' to avoid strong beam artifacts in delay space.
+gamma_path: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Instrument_Properties/' # a path to the complex-vlaued reflection coefficient, as a function of frequency
+gamma_fname: 'gamma_demonstration.npy' # the complex-valued reflection coefficient
+z_ant_real: 'z_ant_real_demonstration.txt' # the real component of antenna's impedance
+f_real: 'freqs_gamma_demonstration.txt' #the frequencies associated with the elements in the elements in the 'gamma_fname' array
+use_keys_out: False
+keys_out: # calculate first-order coupling on the following baselines. [ant i, ant j, 'feed polarization']
+  - !!python/tuple [176,178,'xx'] 
+  - !!python/tuple [182,184,'xx']

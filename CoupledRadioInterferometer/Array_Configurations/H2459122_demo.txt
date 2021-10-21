@@ -1,0 +1,31 @@
+| station       | antenna             | 
+|---------------+---------------------+
+| HH176 <ground | ground> A176 <focus |
+| HH177 <ground | ground> A177 <focus | 
+| HH177 <ground | ground> A177 <focus | 
+| HH178 <ground | ground> A178 <focus |
+| HH178 <ground | ground> A178 <focus | 
+| HH179 <ground | ground> A179 <focus |
+| HH179 <ground | ground> A179 <focus | 
+| HH180 <ground | ground> A180 <focus | 
+| HH180 <ground | ground> A180 <focus | 
+| HH181 <ground | ground> A181 <focus | 
+| HH181 <ground | ground> A181 <focus | 
+| HH182 <ground | ground> A182 <focus | 
+| HH182 <ground | ground> A182 <focus |
+| HH183 <ground | ground> A183 <focus | 
+| HH183 <ground | ground> A183 <focus | 
+| HH184 <ground | ground> A184 <focus |
+| HH184 <ground | ground> A184 <focus |
+| HH185 <ground | ground> A185 <focus |
+| HH185 <ground | ground> A185 <focus |
+| HH186 <ground | ground> A186 <focus | 
+| HH186 <ground | ground> A186 <focus | 
+| HH187 <ground | ground> A187 <focus |
+| HH187 <ground | ground> A187 <focus | 
+| HH189 <ground | ground> A189 <focus | 
+| HH189 <ground | ground> A189 <focus | 
+| HH190 <ground | ground> A190 <focus |
+| HH190 <ground | ground> A190 <focus | 
+| HH191 <ground | ground> A191 <focus | 
+| HH191 <ground | ground> A191 <focus | 

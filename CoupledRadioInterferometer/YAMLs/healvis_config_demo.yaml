@@ -1,0 +1,35 @@
+Nprocs: 11 # Multiproceessing option: The number of processors to devote to the healvis simulation of zeroth-order (non-coupled) data.
+Nskies: 1  # Keep as 1 for now. See healvis documentation for more details.
+do_horizon_taper: True # Taper healpix pixels which are being simulated at the boundary of your field of view. See healvis documentation for more details.
+freq:
+  start_freq: 144000000 #[Hz]
+  end_freq: 159000000
+  Nfreqs: 61
+time:
+  start_time: 2459122.42 # Unit: JD. Start date of 'Galactic Set' datasets used in Paper: 2459122.41130618 
+  end_time: 2459122.48 # End date of 'Galactic Set' datasets used in Paper: 2459122.51409459
+  Ntimes: 70 # 230
+ 
+filing:
+  outfile_prefix: 'hv' # Can be changed to your liking.
+  outdir: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Data/2459122/'
+  clobber: True
+  format: "uvh5"
+skyparam:
+  sky_type: 
+  Nside: 128
+  Nskies: 1 # Keep as 1 for now. See healvis documentation for more details.
+telescope:
+  telescope_location: (-30.72152777777791, 21.428305555555557, 1073.0000000093132) 
+  array_layout: /home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Array_Configurations/HERA_JD_2459122_demo.csv #needn't be JD specific if antenna_nums is in 'select'
+  telescope_name: HERA
+beam:
+  beam_type: '/home/atj/Documents/HERA_mutual_coupling_analysis_scripts/CoupledRadioInterferometer/CoupledRadioInterferometer/Beams/airy_analytic_power_beam_240_Nfreqs_64_nside_healpix_v2.fits'
+  pols:
+    - 'xx' # This polarization code should be in the UVBeam object you use, and also be consistent with an electromagnetic simulation output (e.g. CST)
+  smooth_beam: False # See healvis documentation for more details.
+  beam_freq_interp: "nearest" # While it is set to 'nearest', no interpolation is done if all frequencies of your simulation (e.g. 'start_freq -> end_freq') are also found in the UVBeam object.
+  fov: 179 # [deg.], where 180 deg. corresponds to the horizon. See healvis documentation for more details.Set to <180 if using airy disk beam
+select:
+  no_autos: False #To include or not include autocorrelation data in the healivis simulation. To calculate first-order coupling, we need autocorrs. 
+  make_full: False # since complete_uvdata(uv_obj) is already run in the 'run_simulation()' function of healvis' 'simulator.py' script
