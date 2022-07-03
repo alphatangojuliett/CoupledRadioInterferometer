@@ -16,7 +16,7 @@ setup(
         'matplotlib>=2.2'
         'pyuvdata',
         'astropy>=2.0',
-        'healpy',
+        'astropy-healpix',
         'ruamel.yaml',
         'healvis @ git+git://github.com/rasg-affiliates/healvis@setup_all_bls_and_peak_norm_beam#egg=healvis',
         'uvtools @ git+git://github.com/HERA-Team/uvtools@plot_range_control#egg=uvtools',
