@@ -20,7 +20,7 @@ setup(
         'ruamel.yaml',
         'healvis @ git+git://github.com/rasg-affiliates/healvis@setup_all_bls_and_peak_norm_beam#egg=healvis',
         'uvtools @ git+git://github.com/HERA-Team/uvtools@plot_range_control#egg=uvtools',
-        'hera_cal @ git+git://github.com/HERA-Team/hera_cal',
+        'hera_cal @ git+git://github.com/HERA-Team/hera_cal#egg=hera_cal',
         'hera_pspec @ git+git://github.com/alphatangojuliett/hera_pspec@atj-patch-1_uvtools_branch#egg=hera_pspec',
     ],
     include_package_data = True,
