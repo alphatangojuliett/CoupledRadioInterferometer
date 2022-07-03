@@ -5,6 +5,7 @@ import os
 from pyuvdata import UVData, UVBeam
 import healpy as hp
 from astropy.constants import c
+import numpy.polynomial.chebyshev as cheby
 
 #include locally-revised Github code:
 sys.path.insert(1, '/home/atj/Github_Repos/local_edits/') # insert at 1, 0 is the script path (or '' in REPL)
@@ -114,7 +115,18 @@ def calc_first_order_visibility_uvdata(uvd0, uvd1_dict, dict_coupling):
     ii_fgamma_for_freq = np.array([find_nearest_index(freqs_gamma_and_resistance.real, f) for f in freq]).astype(int)
     gamma =  feed_freq_gamma_resistance[1,ii_fgamma_for_freq]# to come from CST models of the HERA beam, is the voltage reflection coefficient. It is the attenuation factor of re-radiated emission from one antenna to another based on impedance mismatch (a la http://faculty.nps.edu/jenn/pubs/flokasAPS.pdf), for actual (frequency dependent): https://arxiv.org/pdf/2009.07939.pdf
     R_ant = feed_freq_gamma_resistance[2,ii_fgamma_for_freq] #[Ohms], the real part of radiation impedance, which again is discussed in flokas and given as a function of frequency in Fagnoni et al.
+    
+    # Perform a Chebyshev polynomial fit on gamma and R_ant, to avoid artifacts in the power spectrum caused by array indexing
+    gammaR = gamma.real 
+    gammaI = gamma.imag
 
+    gammaR_Cheby = cheby.Chebyshev.fit(freq, gammaR, chebydeg)
+    gammaI_Cheby = cheby.Chebyshev.fit(freq, gammaI, chebydeg)
+
+    gamma_Cheby = gammaR_Cheby(freq)+(1j)*gammaI_Cheby(freq)
+
+    R_Cheby = cheby.Chebyshev.fit(freq, R_ant, chebydeg)
+    
     #Load HH and HdagHdag beams
     if dict_coupling['make_new_coupling_beams']: #Option to make new coupling beams (HH, HdagHdag)
         uvbHH, uvbHdagHdag = make_new_coupling_beams(dict_coupling)
@@ -206,7 +218,7 @@ def calc_first_order_visibility_uvdata(uvd0, uvd1_dict, dict_coupling):
                     #calculate ki terms
                     propagator_dir= 1.
                     if dict_coupling['alternate_coupling']['flip_propagator_dir']: propagator_dir= -1.
-                    coupling_ki = ((coupling_constants*gamma)/np.linalg.norm(enu_ki))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_ki)/(c_ms / freq))) )
+                    coupling_ki = ((coupling_constants*gamma_Cheby)/np.linalg.norm(enu_ki))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_ki)/(c_ms / freq))) )
 
                     #Limit certain baselines, based on visibility term not delay term
                     E = enu_kj[0]; N = enu_kj[1]; ABS = np.linalg.norm(enu_kj);
@@ -247,7 +259,7 @@ def calc_first_order_visibility_uvdata(uvd0, uvd1_dict, dict_coupling):
                     #calculate kj terms
                     propagator_dir= -1.
                     if dict_coupling['alternate_coupling']['flip_propagator_dir']: propagator_dir= 1.
-                    coupling_kj = ((coupling_constants*gamma)/np.linalg.norm(enu_kj))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_kj)/(c_ms / freq))) ) #yes, +2pi, not -2pi, in the exponent
+                    coupling_kj = ((coupling_constants*gamma_Cheby)/np.linalg.norm(enu_kj))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_kj)/(c_ms / freq))) ) #yes, +2pi, not -2pi, in the exponent
                     
                     #Limit certain baselines, based on visibility term not delay term
                     E = enu_ik[0]; N = enu_ik[1]; ABS = np.linalg.norm(enu_ik);
@@ -293,7 +305,7 @@ def calc_first_order_visibility_uvdata(uvd0, uvd1_dict, dict_coupling):
     return uvd1_dict
 
 
-def calc_first_order_visibility_uvdata_mt(uvd0, dict_coupling, antpairpol):
+def calc_first_order_visibility_uvdata_mt(uvd0, dict_coupling, antpairpol, chebydeg=6):
     #A MULTITHREADED VERSION OF THE FUNCTION calc_first_order_visibility_uvdata
     """
     az, za = Azimuth, zenith angle, radians
@@ -320,6 +332,17 @@ def calc_first_order_visibility_uvdata_mt(uvd0, dict_coupling, antpairpol):
     gamma =  feed_freq_gamma_resistance[1,ii_fgamma_for_freq]# to come from CST models of the HERA beam, is the voltage reflection coefficient. It is the attenuation factor of re-radiated emission from one antenna to another based on impedance mismatch (a la http://faculty.nps.edu/jenn/pubs/flokasAPS.pdf), for actual (frequency dependent): https://arxiv.org/pdf/2009.07939.pdf
     R_ant = feed_freq_gamma_resistance[2,ii_fgamma_for_freq] #[Ohms], the real part of radiation impedance, which again is discussed in flokas and given as a function of frequency in Fagnoni et al.
 
+    # Perform a Chebyshev polynomial fit on gamma and R_ant, to avoid artifacts in the power spectrum caused by array indexing
+    gammaR = gamma.real 
+    gammaI = gamma.imag
+
+    gammaR_Cheby = cheby.Chebyshev.fit(freq, gammaR, chebydeg)
+    gammaI_Cheby = cheby.Chebyshev.fit(freq, gammaI, chebydeg)
+
+    gamma_Cheby = gammaR_Cheby(freq)+(1j)*gammaI_Cheby(freq)
+
+    R_Cheby = cheby.Chebyshev.fit(freq, R_ant, chebydeg)
+    
     #Load HH and HdagHdag beams must now be outside the multithreaded loop
     #if dict_coupling['make_new_coupling_beams']: #Option to make new coupling beams (HH, HdagHdag)
     #    uvbHH, uvbHdagHdag = make_new_coupling_beams(dict_coupling)
@@ -396,7 +419,7 @@ def calc_first_order_visibility_uvdata_mt(uvd0, dict_coupling, antpairpol):
                 #calculate ki terms
                 propagator_dir= 1.
                 if dict_coupling['alternate_coupling']['flip_propagator_dir']: propagator_dir= -1.
-                coupling_ki = ((coupling_constants*gamma)/np.linalg.norm(enu_ki))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_ki)/(c_ms / freq))) )
+                coupling_ki = ((coupling_constants*gamma_Cheby)/np.linalg.norm(enu_ki))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_ki)/(c_ms / freq))) )
 
                 #Limit certain baselines, based on visibility term not delay term
                 E = enu_kj[0]; N = enu_kj[1]; ABS = np.linalg.norm(enu_kj);
@@ -437,7 +460,7 @@ def calc_first_order_visibility_uvdata_mt(uvd0, dict_coupling, antpairpol):
                 #calculate kj terms
                 propagator_dir= -1.
                 if dict_coupling['alternate_coupling']['flip_propagator_dir']: propagator_dir= 1.
-                coupling_kj = ((coupling_constants*gamma)/np.linalg.norm(enu_kj))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_kj)/(c_ms / freq))) ) #yes, +2pi, not -2pi, in the exponent
+                coupling_kj = ((coupling_constants*gamma_Cheby)/np.linalg.norm(enu_kj))*exp( (propagator_dir*2. * np.pi * (np.linalg.norm(enu_kj)/(c_ms / freq))) ) #yes, +2pi, not -2pi, in the exponent
                 
                 #Limit certain baselines, based on visibility term not delay term
                 E = enu_ik[0]; N = enu_ik[1]; ABS = np.linalg.norm(enu_ik);
