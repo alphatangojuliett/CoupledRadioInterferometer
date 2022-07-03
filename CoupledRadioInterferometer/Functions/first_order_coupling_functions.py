@@ -3,7 +3,8 @@ import sys
 import numpy as np
 import os
 from pyuvdata import UVData, UVBeam
-import healpy as hp
+#import healpy as hp
+from astropy_healpix import healpy as hp
 from astropy.constants import c
 import numpy.polynomial.chebyshev as cheby
 
@@ -139,7 +140,7 @@ def calc_first_order_visibility_uvdata(uvd0, uvd1_dict, dict_coupling):
         HdagHdag_beam.read_beamfits(dict_coupling['str_HdagHdag'])
         print('    Done.')
 
-    za, az = hp.pixelfunc.pix2ang(HH_beam.nside, np.arange(HH_beam.Npixels))
+    za, az = hp.pix2ang(HH_beam.nside, np.arange(HH_beam.Npixels))
 
     pol = dict_coupling['pol']
     same_beam_all_freqs = dict_coupling['same_beam_all_freqs']
@@ -353,7 +354,7 @@ def calc_first_order_visibility_uvdata_mt(uvd0, dict_coupling, antpairpol, cheby
     HdagHdag_beam = UVBeam()
     HdagHdag_beam.read_beamfits(dict_coupling['str_HdagHdag'])
 
-    za, az = hp.pixelfunc.pix2ang(HH_beam.nside, np.arange(HH_beam.Npixels))
+    za, az = hp.pix2ang(HH_beam.nside, np.arange(HH_beam.Npixels))
 
     pol = dict_coupling['pol']
     same_beam_all_freqs = dict_coupling['same_beam_all_freqs']
