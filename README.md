@@ -6,9 +6,8 @@ For using the semi-analytic, first-order, antenna-antenna coupling formalism pre
 
 ## Installation
 
-Preferred method of installation for users is simply `pip install .`
-(or `pip install git+https://github.com/alphatangojuliett/CoupledRadioInterferometer`). This should install 
-required dependencies. NOTE: you will need git-lfs to be installed beforehand.
+Preferred method of installation for users is simply `pip install .`, after cloning to repo. This should also install all 
+required dependencies. NOTE: Before installation, ensure that git-lfs is installed on your local machine.
 
 ## Tutorials
 
