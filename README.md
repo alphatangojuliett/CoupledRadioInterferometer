@@ -6,8 +6,7 @@ For using the semi-analytic, first-order, antenna-antenna coupling formalism pre
 
 ## Installation
 
-Preferred method of installation for users is simply `pip install .`, after cloning to repo. This should also install all 
-required dependencies. NOTE: Before installation, ensure that git-lfs is installed on your local machine.
+Before installation, ensure that git-lfs is installed on your local machine. Next, clone this repo to your machine, 'cd' into the cloned directory, and execute `pip install .`. This should also install all required dependencies.
 
 ## Tutorials
 
