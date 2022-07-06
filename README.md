@@ -2,7 +2,7 @@
 Coupled Radio Interferometer
 ===========
 
-For using the semi-analytic, first-order, antenna-antenna coupling formalism presented in ["Array Element Coupling in Radio Interferometry I: A Semi-Analytic Approach"](https://academic.oup.com/mnras/article-abstract/514/2/1804/6564718?login=false).
+For using the semi-analytic, first-order, antenna-antenna coupling formalism presented in ["Array Element Coupling in Radio Interferometry I: A Semi-Analytic Approach"](https://doi.org/10.1093/mnras/stac916).
 
 ## Installation
 
